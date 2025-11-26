@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "vercel dev",
-    "start": "node api/html-to-pdf.js"
+    "start": "node api/html-to-pdf.js",
+    "postinstall": "npx @sparticuz/chromium-min install"
   },
   "dependencies": {
     "@sparticuz/chromium-min": "138.0.2",
