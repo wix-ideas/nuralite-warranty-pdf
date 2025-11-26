@@ -1,4 +1,4 @@
-import chromium from '@sparticuz/chromium-min'
+import chromium from '@sparticuz/chromium'
 import puppeteer from 'puppeteer-core'
 
 export default async function handler(req, res) {
@@ -47,6 +47,6 @@ export default async function handler(req, res) {
     res.status(200).json({ pdf: base64 })
   } catch (error) {
     console.error('Vercel html-to-pdf error:', error)
-    res.status(500).json({ error: 'Failed to generate PDF' })
+    res.status(500).json({ error: error.message || 'Failed to generate PDF' })
   }
 }

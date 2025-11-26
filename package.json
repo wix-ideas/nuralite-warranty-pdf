@@ -4,11 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "vercel dev",
-    "start": "node api/html-to-pdf.js",
-    "postinstall": "node node_modules/@sparticuz/chromium-min/install.mjs || echo \"chromium-min install skipped\""
+    "start": "node api/html-to-pdf.js"
   },
   "dependencies": {
-    "@sparticuz/chromium-min": "138.0.2",
+    "@sparticuz/chromium": "latest",
     "puppeteer-core": "22.6.4"
   }
 }
