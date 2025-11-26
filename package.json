@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "vercel dev",
+    "start": "node api/html-to-pdf.js"
   },
   "dependencies": {
-    "@sparticuz/chromium-min": "^1.0.0",
-    "puppeteer-core": "^22.15.0"
+    "@sparticuz/chromium-min": "138.0.2",
+    "puppeteer-core": "22.6.4"
   }
 }
