@@ -1,8 +1,5 @@
-import puppeteer from 'puppeteer';
-
-export const config = {
-  runtime: 'nodejs'
-};
+import chromium from '@sparticuz/chromium-min';
+import puppeteer from 'puppeteer-core';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -11,18 +8,27 @@ export default async function handler(req, res) {
   }
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const { html } = body;
+    const { html } = req.body || {};
 
     if (!html || typeof html !== 'string') {
       res.status(400).json({ error: 'Missing or invalid html' });
       return;
     }
 
-    const browser = await puppeteer.launch();
+    const executablePath = await chromium.executablePath;
+
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath,
+      headless: chromium.headless
+    });
+
     const page = await browser.newPage();
 
-    await page.setContent(html, { waitUntil: 'networkidle0' });
+    await page.setContent(html, {
+      waitUntil: 'networkidle0'
+    });
 
     const pdfBuffer = await page.pdf({
       format: 'A4',
@@ -38,8 +44,10 @@ export default async function handler(req, res) {
     await browser.close();
 
     const base64 = pdfBuffer.toString('base64');
+
     res.status(200).json({ pdf: base64 });
   } catch (error) {
-    res.status(500).json({ error: error?.message || 'Failed to generate PDF' });
+    console.error('Vercel html-to-pdf error:', error);
+    res.status(500).json({ error: 'Failed to generate PDF' });
   }
 }

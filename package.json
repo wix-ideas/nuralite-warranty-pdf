@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vercel dev",
-    "start": "node api/html-to-pdf.js",
-    "postinstall": "npx puppeteer browsers install chrome"
+    "dev": "vercel dev"
   },
   "dependencies": {
-    "puppeteer": "^22.15.0"
+    "@sparticuz/chromium-min": "^1.0.0",
+    "puppeteer-core": "^22.15.0"
   }
 }
