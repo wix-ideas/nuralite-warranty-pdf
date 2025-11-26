@@ -1,6 +1,9 @@
-// api/html-to-pdf.js
-import chromium from 'chrome-aws-lambda';
+import chromium from '@sparticuz/chrome-aws-lambda';
 import puppeteer from 'puppeteer-core';
+
+export const config = {
+  runtime: 'nodejs'
+};
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -9,7 +12,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { html } = req.body || {};
+    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+    const { html } = body;
 
     if (!html || typeof html !== 'string') {
       res.status(400).json({ error: 'Missing or invalid html' });
@@ -22,14 +26,11 @@ export default async function handler(req, res) {
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath,
-      headless: true
+      headless: chromium.headless
     });
 
     const page = await browser.newPage();
-
-    await page.setContent(html, {
-      waitUntil: 'networkidle0'
-    });
+    await page.setContent(html, { waitUntil: 'networkidle0' });
 
     const pdfBuffer = await page.pdf({
       format: 'A4',
@@ -45,10 +46,9 @@ export default async function handler(req, res) {
     await browser.close();
 
     const base64 = pdfBuffer.toString('base64');
-
     res.status(200).json({ pdf: base64 });
+
   } catch (error) {
-    console.error('Vercel html-to-pdf error:', error);
-    res.status(500).json({ error: 'Failed to generate PDF' });
+    res.status(500).json({ error: error?.message || 'Failed to generate PDF' });
   }
 }
