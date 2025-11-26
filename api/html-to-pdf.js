@@ -1,5 +1,4 @@
-import chromium from '@sparticuz/chrome-aws-lambda';
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 
 export const config = {
   runtime: 'nodejs'
@@ -20,16 +19,9 @@ export default async function handler(req, res) {
       return;
     }
 
-    const executablePath = await chromium.executablePath;
-
-    const browser = await puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath,
-      headless: chromium.headless
-    });
-
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
+
     await page.setContent(html, { waitUntil: 'networkidle0' });
 
     const pdfBuffer = await page.pdf({
@@ -47,7 +39,6 @@ export default async function handler(req, res) {
 
     const base64 = pdfBuffer.toString('base64');
     res.status(200).json({ pdf: base64 });
-
   } catch (error) {
     res.status(500).json({ error: error?.message || 'Failed to generate PDF' });
   }

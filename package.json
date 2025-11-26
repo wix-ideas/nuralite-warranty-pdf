@@ -7,7 +7,6 @@
     "start": "node api/html-to-pdf.js"
   },
   "dependencies": {
-    "@sparticuz/chrome-aws-lambda": "^10.1.0",
-    "puppeteer-core": "^19.7.5"
+    "puppeteer": "^22.15.0"
   }
 }
