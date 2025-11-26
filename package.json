@@ -1,0 +1,13 @@
+{
+  "name": "nuralite-warranty-pdf",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "node api/html-to-pdf.js"
+  },
+  "dependencies": {
+    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer-core": "^19.7.2"
+  }
+}
