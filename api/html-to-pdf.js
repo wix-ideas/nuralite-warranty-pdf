@@ -26,6 +26,14 @@ export default async function handler(req, res) {
 
     const page = await browser.newPage()
 
+    await page.addStyleTag({
+  content: `
+    * {
+      font-family: Arial, Helvetica, sans-serif !important;
+    }
+  `
+});
+
     await page.setContent(html, {
       waitUntil: 'networkidle0'
     })
