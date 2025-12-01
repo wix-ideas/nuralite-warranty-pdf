@@ -35,7 +35,7 @@ export default async function handler(req, res) {
       printBackground: true,
       margin: {
         top: '10mm',
-        bottom: '15mm',
+        bottom: '5mm',
         left: '10mm',
         right: '10mm'
       }
