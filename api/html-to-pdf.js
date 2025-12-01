@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     await page.addStyleTag({
   content: `
     * {
-      font-family: Arial, Helvetica, sans-serif !important;
+      font-family: Helvetica sans-serif !important;
     }
   `
 });
